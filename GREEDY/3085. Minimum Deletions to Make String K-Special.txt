@@ -41,6 +41,8 @@ Range-based constraint	Greedy is useful when you want values to stay within a ce
 Simulation of all cases	You try all possible bases (freq[i]) and pick the optimal one.
 Trade-off decisions	Greedy lets you quickly test which deletions lead to valid results with minimal cost.
 
+//Solution
+
 class Solution {
     public int minimumDeletions(String word, int k) 
     {
