@@ -10,9 +10,6 @@
 - 📁 All LeetCode Java solutions: [`/leetcode`](./leetcode/)
 - 📊 See my latest stats (light & dark themes below):
 
-### 🌞 Light Theme
-![LeetCode Stats – Light](https://leetcard.jacoblin.cool/gupta__ji?theme=light&font=Fira%20Code&extension=activity)
-
 ### 🌙 Dark Theme
 ![LeetCode Stats – Dark](https://leetcard.jacoblin.cool/gupta__ji?theme=dark&font=Fira%20Code&extension=activity)
 
