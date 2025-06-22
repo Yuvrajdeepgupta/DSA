@@ -7,12 +7,6 @@
 ## 📊 My LeetCode Stats
 
 - 🔗 [My LeetCode Profile](https://leetcode.com/u/gupta__ji/)
-- 📊 See my latest stats:
-
-### 🌙 Dark Theme
-![LeetCode Stats – Dark](https://leetcard.jacoblin.cool/gupta__ji?theme=dark&font=Fira%20Code&extension=activity)
-
----
 
 ## 📘 LeetCode Problem Tracker
 
