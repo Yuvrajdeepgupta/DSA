@@ -2,8 +2,8 @@ name: Update LeetCode Stats
 
 on:
   schedule:
-    - cron: '0 0 * * *'     # Every day at 00:00 UTC
-  workflow_dispatch: {}     # Allow manual runs
+    - cron: '0 0 * * *'
+  workflow_dispatch:
 
 jobs:
   update:
@@ -25,9 +25,11 @@ jobs:
         run: python .scripts/update_readme.py
 
       - name: ✅ Commit & Push if changed
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add README.md
           git diff --cached --quiet || git commit -m "♻️ Auto-update LeetCode stats"
-          git push
+          git push https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }} HEAD:master
