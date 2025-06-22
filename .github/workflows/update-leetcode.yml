@@ -1,35 +1,43 @@
-name: Update LeetCode Stats
+name: Update LeetCode Stats  
+permissions:  
+  contents: write  
 
-on:
-  schedule:
-    - cron: '0 0 * * *'
-  workflow_dispatch:
+on:  
+  schedule:  
+    - cron: '0 0 * * *'    # every day at 00:00 UTC  
+  workflow_dispatch: {}    # manual trigger  
 
-jobs:
-  update:
-    runs-on: ubuntu-latest
+jobs:  
+  update:  
+    runs-on: ubuntu-latest  
 
-    steps:
-      - name: 📥 Checkout Repository
-        uses: actions/checkout@v3
+    steps:  
+      - name: 📥 Checkout repository  
+        uses: actions/checkout@v3  
 
-      - name: 🐍 Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.x'
+      - name: 🐍 Set up Python  
+        uses: actions/setup-python@v4  
+        with:  
+          python-version: '3.x'  
 
-      - name: 📦 Install requests
-        run: pip install requests
+      - name: 📦 Install dependencies  
+        run: pip install requests  
 
-      - name: 🚀 Run Python script
-        run: python .scripts/update_readme.py
+      - name: 🚀 Run update script  
+        run: python .scripts/update_readme.py  
 
-      - name: ✅ Commit & Push if changed
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add README.md
-          git diff --cached --quiet || git commit -m "♻️ Auto-update LeetCode stats"
-          git push https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }} HEAD:master
+      - name: 🗂️ List files for sanity  
+        run: ls -R .  
+
+      - name: 📝 Show diff  
+        run: git diff  
+
+      - name: ✅ Commit & push if changed  
+        env:  
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  
+        run: |  
+          git config --global user.name "github-actions[bot]"  
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"  
+          git add README.md  
+          git diff --cached --quiet || git commit -m "♻️ Auto-update LeetCode stats"  
+          git push https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }} HEAD:master  
