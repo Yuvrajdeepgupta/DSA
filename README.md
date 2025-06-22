@@ -4,6 +4,30 @@
 
 ---
 
+## 📊 My LeetCode Stats
+
+- 🔗 [My LeetCode Profile](https://leetcode.com/u/gupta__ji/)
+- 📁 All LeetCode Java solutions: [`/leetcode`](./leetcode/)
+- 📊 See my latest stats (light & dark themes below):
+
+### 🌞 Light Theme
+![LeetCode Stats – Light](https://leetcard.jacoblin.cool/gupta__ji?theme=light&font=Fira%20Code&extension=activity)
+
+### 🌙 Dark Theme
+![LeetCode Stats – Dark](https://leetcard.jacoblin.cool/gupta__ji?theme=dark&font=Fira%20Code&extension=activity)
+
+---
+
+## 📘 LeetCode Problem Tracker
+
+<!-- LEETCODE-STATS-START -->
+*Loading your data...*
+<!-- LEETCODE-STATS-END -->
+
+---
+
+---
+
 ## 🔍 What’s Inside
 
 - **Category folders** (arrays, linked-list, trees, etc.)  
