@@ -7,7 +7,6 @@
 ## 📊 My LeetCode Stats
 
 - 🔗 [My LeetCode Profile](https://leetcode.com/u/gupta__ji/)
-- 📁 All LeetCode Java solutions: [`/leetcode`]([./leetcode/](https://github.com/Yuvrajdeepgupta/DSA?tab=readme-ov-file))
 - 📊 See my latest stats:
 
 ### 🌙 Dark Theme
