@@ -7,8 +7,8 @@
 ## 📊 My LeetCode Stats
 
 - 🔗 [My LeetCode Profile](https://leetcode.com/u/gupta__ji/)
-- 📁 All LeetCode Java solutions: [`/leetcode`](./leetcode/)
-- 📊 See my latest stats (light & dark themes below):
+- 📁 All LeetCode Java solutions: [`/leetcode`]([./leetcode/](https://github.com/Yuvrajdeepgupta/DSA?tab=readme-ov-file))
+- 📊 See my latest stats:
 
 ### 🌙 Dark Theme
 ![LeetCode Stats – Dark](https://leetcard.jacoblin.cool/gupta__ji?theme=dark&font=Fira%20Code&extension=activity)
