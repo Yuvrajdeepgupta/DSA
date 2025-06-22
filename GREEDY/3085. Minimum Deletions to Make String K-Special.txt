@@ -1,0 +1,77 @@
+link- https://youtu.be/u-DEw481l04?si=BZnek8S9Df5FfL_U
+
+✅ Question Summary:
+🧠 Problem:
+Given a string word and an integer k, delete the minimum number of characters so that difference between frequencies of any two characters is ≤ k.
+
+🚀 Key Learnings in This Question
+1. 🔢 Frequency Mapping + Sorting
+First step is always to count how often each character appears.
+
+Sorting helps you compare and control frequencies efficiently.
+
+2. 🎯 Greedy Choice: Fix a Base Frequency
+For every freq[i] (after sorting), treat it as the minimum frequency you're willing to keep.
+
+Now only allow frequencies in the range:
+
+[freq[i], freq[i] + k]
+This ensures that max - min ≤ k, which is the core requirement.
+
+3. 🗑️ Delete Outside the Range
+Frequencies less than freq[i]: we assume they're already deleted (via cumulativeDeleted).
+
+Frequencies greater than freq[i] + k: we reduce them by deleting characters.
+
+4. 📈 Try Every freq[i] as Base
+We check the cost of deletions for each freq[i] as base.
+
+Take the minimum cost across all trials ⇒ final answer.
+
+🧠 Why the Range [freq[i], freq[i] + k]?
+Because it’s the only range where:
+
+For any two characters, |freq[a] - freq[b]| ≤ k
+If you go below freq[i] or above freq[i] + k, this rule can break.
+
+💡 Greedy Technique Insights (from this question)
+Concept	Explanation
+Greedy with fixed base	Try fixing one value (freq[i]) and build a greedy strategy around it.
+Range-based constraint	Greedy is useful when you want values to stay within a certain window.
+Simulation of all cases	You try all possible bases (freq[i]) and pick the optimal one.
+Trade-off decisions	Greedy lets you quickly test which deletions lead to valid results with minimal cost.
+
+class Solution {
+    public int minimumDeletions(String word, int k) 
+    {
+        int freq[]=new int[26];
+
+        for(char s:word.toCharArray())
+        {
+            freq[s-'a']++;
+        }
+
+        int result=Integer.MAX_VALUE;
+        for(int i=0;i<26;i++)
+        {   
+            int del=0;
+            for(int j=0;j<26;j++)
+            {
+                if(i==j){continue;}
+
+                if(freq[j]<freq[i])
+                {
+                    del+=freq[j];
+                }
+                else if( Math.abs(freq[j]-freq[i]) > k)
+                {
+                    del+=Math.abs(freq[j]-freq[i]-k);
+                }
+            }
+
+            result=Math.min(result,del);
+        }
+
+        return result;
+    }
+}

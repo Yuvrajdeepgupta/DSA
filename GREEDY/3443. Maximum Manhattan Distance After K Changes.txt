@@ -1,0 +1,36 @@
+//SOLUTION-https://www.youtube.com/watch?v=LjgDv-WeXfM&ab_channel=codestorywithMIK
+
+class Solution {
+    public int maxDistance(String s, int k) 
+    {
+        int max=0;
+
+        int n=s.length();
+        int North=0,South=0,East=0,West=0;
+        for(int i=0;i<n;i++)
+        {
+            char drn=s.charAt(i);
+
+            if(drn=='N'){North++;}
+            else if(drn=='S'){South++;}
+            else if(drn=='E'){East++;}
+            else if(drn=='W'){West++;}
+
+            int currMD=Math.abs(North-South) + Math.abs(East-West);
+            int steps=i+1;
+
+            int wasted=steps-currMD;
+
+            int extra=0;
+            if(wasted!=0)
+            {
+                extra=Math.min(2*k,wasted);
+            }
+
+            int finalMD=currMD + extra;
+            max=Math.max(max,finalMD);
+        }
+
+        return max;
+    }
+}
