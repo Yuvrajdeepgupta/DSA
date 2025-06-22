@@ -17,7 +17,12 @@
 ## 📘 LeetCode Problem Tracker
 
 <!-- LEETCODE-STATS-START -->
-*Loading your data...*
+- 🧠 Total Solved: **195 / 3594**
+- 🟢 Easy: **90**
+- 🟡 Medium: **88**
+- 🔴 Hard: **17**
+- 🏆 Ranking: **#632907**
+- ⏰ Last updated: 2025-06-22 18:21:08 UTC
 <!-- LEETCODE-STATS-END -->
 
 ---
