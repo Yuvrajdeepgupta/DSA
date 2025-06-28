@@ -11,12 +11,12 @@
 ## 📘 LeetCode Problem Tracker
 
 <!-- LEETCODE-STATS-START -->
-- 🧠 Total Solved: **201 / 3596**
+- 🧠 Total Solved: **202 / 3596**
 - 🟢 Easy: **94**
-- 🟡 Medium: **89**
+- 🟡 Medium: **90**
 - 🔴 Hard: **18**
-- 🏆 Ranking: **#617394**
-- ⏰ Last updated: 2025-06-27 00:58:10 UTC
+- 🏆 Ranking: **#614043**
+- ⏰ Last updated: 2025-06-28 00:55:49 UTC
 <!-- LEETCODE-STATS-END -->
 
 ---
