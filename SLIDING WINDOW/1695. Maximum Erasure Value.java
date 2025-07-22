@@ -18,7 +18,70 @@ During this process, we keep track of the sum of elements in the window and upda
 
 -------------------------------------------------------------------
 
-💡 Approach:
+
+-------------------------------------------------------------------
+
+💡 Approach 1:
+- Use two pointers (`i` and `j`) for sliding window.
+- Use a `HashSet` to maintain only unique elements inside the current window.
+- If a duplicate is found (`set.contains(nums[j])`), remove elements from the left (`set.remove(nums[i])`) and reduce the sum.
+- Keep updating the max sum.
+
+-------------------------------------------------------------------
+
+✅ Java Code (Clean + Optimal + Khandani):
+*/
+
+import java.util.*;
+
+class Solution {
+    public int maximumUniqueSubarray(int[] nums) 
+    {
+        Set<Integer> set = new HashSet<>();
+
+        int n = nums.length;
+        int sum = 0, maxsum = 0;
+        int i = 0, j = 0;
+
+        while (j < n)
+        {
+            int curr = nums[j];
+
+            // Remove duplicates from the left until current is unique
+            while (!set.isEmpty() && set.contains(curr))
+            {
+                set.remove(nums[i]);
+                sum -= nums[i];
+                i++;
+            }
+
+            sum += nums[j];
+            maxsum = Math.max(maxsum, sum);
+            set.add(curr);
+            j++;
+        }
+
+        return maxsum;
+    }
+}
+
+/*
+
+
+__________________________________________________________________
+
+⏱️ Time Complexity:
+O(N)  
+- Each element is added and removed from the set at most once.
+
+📦 Space Complexity:
+O(N)  
+- In the worst case, all elements are unique → HashSet grows to size N.
+
+-------------------------------------------------------------------
+
+
+💡 Approach 2:
 - Use the sliding window technique with two pointers (i and j).
 - Use a boolean[] array of size 10001 as a fast HashSet since 1 <= nums[i] <= 10^4.
 - At each step:
