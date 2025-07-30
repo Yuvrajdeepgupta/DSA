@@ -1,0 +1,72 @@
+/*
+🔥 JVM Warm-up Trick (for faster runtime on LeetCode & other platforms)
+
+📌 Problem:
+Java runs slower during first few method calls because the JVM is still "warming up".
+This can make your solution appear slow on LeetCode, especially when:
+- Your function is only called once (so no chance for JVM to optimize it).
+- Runtime is tight and competitive.
+
+------------------------------------------------------------
+🧠 Intuition:
+
+Java code runs on the JVM (Java Virtual Machine).
+JVM uses a technique called JIT → Just-In-Time Compilation.
+
+How it works:
+- At first, the JVM interprets bytecode line-by-line → slow.
+- If a method is called multiple times, JVM thinks it’s important (a "hotspot").
+- Then it compiles that method into fast native code → future calls become much faster.
+
+------------------------------------------------------------
+🛠️ Solution:
+
+Use a static block to call your method 100+ times with dummy inputs.
+This tricks the JVM into thinking the method is important → it optimizes it early.
+
+✅ Syntax:
+
+static {
+    for (int i = 0; i < 100; i++) {
+        yourMethod(new DummyInput());
+    }
+}
+
+This runs **once when the class loads**, before `main()` or before LeetCode runs your actual test.
+
+------------------------------------------------------------
+🧪 Example:
+
+Suppose your function is:
+void deleteMiddle(ListNode head) { ... }
+
+Then do this:
+
+static {
+    for (int i = 0; i < 100; i++) {
+        deleteMiddle(new ListNode(0)); // dummy input
+    }
+}
+
+------------------------------------------------------------
+⏱️ Benefit:
+
+✅ JVM will compile `deleteMiddle()` into native code using JIT before real input is run.
+✅ You’ll see better runtime results, especially on competitive coding platforms.
+✅ No impact on actual logic or correctness.
+
+------------------------------------------------------------
+⚠️ Notes:
+
+- This is just a performance trick, not needed in real-world production code.
+- It’s purely to make Java competitive with C++ in runtime-heavy online judges.
+
+------------------------------------------------------------
+👑 Summary (Yuvraj Style):
+
+// JVM is slow at first (warm-up phase)
+// So run your method 100 times on dummy data in a static block
+// JVM thinks method is hot → compiles it early using JIT
+// So when real input runs → code is already fast!
+
+*/
