@@ -1,0 +1,104 @@
+/****************************************************************
+🧠 SLIDING WINDOW TECHNIQUE – MASTER TEMPLATE (YUVRAJ STYLE)
+Playlist Source: Sliding Window By Aditya Verma
+🔗 https://youtube.com/playlist?list=PL_z_8CaSLPWeM8BDJmIYDaoQ5zuwyxnfj&si=kM8kgZmubltwLYL0
+
+================================================================
+💡 WHAT IS SLIDING WINDOW TECHNIQUE?
+================================================================
+Used when we are dealing with **subarrays or substrings** (contiguous elements),
+and we need to **analyze or optimize** something over a window.
+
+Two types of sliding window problems:
+1. Fixed-Size Window ➡ when window size 'k' is given.
+2. Variable-Size Window ➡ when we have to find longest/shortest subarray based on a condition.
+
+****************************************************************
+1️⃣ FIXED-SIZE SLIDING WINDOW
+****************************************************************
+📦 Used When:
+- You’re given a fixed window size `k` and need to find things like:
+  → max sum of k-size subarray
+  → first negative number in every k-sized window, etc.
+
+🧠 INTUITION:
+- Keep expanding the window until its size becomes k
+- Once size == k, do your main calculation (store result)
+- Then slide the window forward by increasing both i and j
+
+🛠️ TEMPLATE:
+---------------------------------------------------------------
+int i = 0, j = 0;
+while(j < arr.length)
+{
+    // 1. Add current element arr[j] to your calculation
+
+    if((j - i + 1) < k)
+    {
+        j++; // expand window
+    }
+    else if((j - i + 1) == k)
+    {
+        // 2. Perform your main logic (e.g. save sum, count, etc.)
+
+        // 3. Remove arr[i] if needed (cleanup step)
+
+        // 4. Slide the window
+        i++;
+        j++;
+    }
+}
+
+✅ Time: O(N)  
+✅ Space: O(1) unless you're using extra DS like deque, hashmap
+
+****************************************************************
+2️⃣ VARIABLE-SIZE SLIDING WINDOW
+****************************************************************
+📦 Used When:
+- You don’t know window size upfront.
+- Need to find max/min length of subarray based on some condition.
+  → Longest subarray with sum ≤ K
+  → Longest substring with at most K distinct characters
+
+🧠 INTUITION:
+- Expand window using j until condition breaks
+- Once broken, shrink it using i until condition becomes valid again
+- Do your logic (like update max length) on every valid window
+
+🛠️ TEMPLATE:
+---------------------------------------------------------------
+int i = 0, j = 0;
+int answer = 0; // max length, min length, count, etc.
+int windowSum = 0; // Can be anything depending on the problem
+
+while(j < nums.length)
+{
+    windowSum += nums[j]; // Step 1: Expand window
+
+    while(windowSum > k)  // Step 2: Shrink if condition breaks
+    {
+        windowSum -= nums[i];
+        i++;
+    }
+
+    // Step 3: Condition satisfied — store result
+    if(windowSum == k)
+    {
+        answer = Math.max(answer, j - i + 1);
+    }
+
+    j++; // Step 4: Move right pointer
+}
+
+✅ Time: O(N)  
+✅ Space: O(1) or more if using extra DS
+
+****************************************************************
+✍️ Yuvraj's Summary:
+- Fixed Window: Jab window size 'k' fix ho, bas j se window banao aur i-j ko saath slide karo.
+- Variable Window: Jab condition pe depend kare ki window kitni badi chahiye, j se badhao, i se ghatao.
+- Most sliding window problems bas isi template pe rotate karte hain, sirf condition aur calc alag hota hai.
+
+✅ Must Know Patterns Before Interviews!
+****************************************************************/
