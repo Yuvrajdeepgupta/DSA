@@ -1,0 +1,17 @@
+O(1), O(log n) → Extremely fast, even for huge inputs.
+
+O(√n) → Still very fast for competitive programming (10^5 or 10^6 range).
+
+O(n) → Fine for n ≤ 10^7 in most contests.
+
+O(n log n) → Best choice for sorting and efficient algorithms, works for n ≤ 10^6–10^7.
+
+O(n√n) → Works for special cases like Mo’s Algorithm when queries are large but updates are minimal.
+
+O(n²) → Only okay for n ≤ 5000.
+
+O(n³) → Okay for n ≤ 500.
+
+O(2ⁿ) / O(n!) → Only feasible for n ≤ 20 or so.
+
+Image ref - https://sora.chatgpt.com/g/gen_01k1y11dwheb8syffgsedy4sg9

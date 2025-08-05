@@ -1,0 +1,163 @@
+# Concept: Square Root Decomposition (Block Decomposition)
+
+# Tutorial Video Link:
+https://youtu.be/Ydrwd7ro8po?si=zmgO5DSj4lC62Gve
+
+===================================================================================================
+## 1. What is Square Root Decomposition?
+Square Root Decomposition is a **technique to optimize range queries and updates** 
+by splitting the array into **blocks of size ≈ √n** and storing summary information for each block.
+
+- Array size = n  
+- Block size = ⌈√n⌉  
+- Number of blocks = ⌈n / blockSize⌉  
+
+Instead of processing each query in **O(n)**, we:
+- Fully process only **O(√n)** blocks
+- Partially process at most **2 blocks** (start & end)
+- Complexity becomes **O(√n)** per query/update
+
+===================================================================================================
+## 2. Why Block Size = √n?
+We choose block size ≈ √n because:
+- Number of blocks = n / blockSize
+- Processing per block = O(1) using precomputed data
+- Query complexity = O(√n) blocks touched
+- Balances between too many small blocks and too few large blocks
+
+===================================================================================================
+## 3. Typical Use Cases:
+- Range queries (sum, min, max, gcd, frequency, etc.)
+- Frequent queries + occasional updates
+- Problems where direct scan O(n) per query is too slow
+
+===================================================================================================
+## 4. Approach / Intuition:
+1. **Preprocessing:**
+   - Divide array into blocks of size ≈ √n.
+   - Precompute and store block summaries (e.g., sum, max, min).
+   
+2. **Query:**
+   - Break range into:
+     - Partial block at start
+     - Full blocks in the middle
+     - Partial block at end
+   - Use block summaries for full blocks
+   - Manually process partial blocks
+
+3. **Update:**
+   - Change the element in the array
+   - Recompute the affected block’s summary
+
+===================================================================================================
+## 5. Example:
+
+Array: [3, 1, 4, 1, 5, 9, 2, 6]  
+n = 8 → blockSize = ⌈√8⌉ = 3  
+Blocks:  
+Block 0 → [3, 1, 4] → summary = max = 4  
+Block 1 → [1, 5, 9] → summary = max = 9  
+Block 2 → [2, 6]    → summary = max = 6  
+
+Query max(2, 6):
+- Partial block from index 2 to 2 → check directly (max = 4)
+- Full block 1 → summary = 9
+- Partial block from index 6 to 6 → check directly (max = 2)
+Result = max(4, 9, 2) = 9
+
+===================================================================================================
+## 6. Java Template Code:
+
+import java.util.*;
+
+class SqrtDecomposition {
+    int n;              // array size
+    int blockSize;      // size of each block
+    int numBlocks;      // total blocks
+    int[] arr;          // original array
+    int[] blockMax;     // precomputed block max values
+
+    public SqrtDecomposition(int[] data) {
+        this.n = data.length;
+        this.blockSize = (int) Math.ceil(Math.sqrt(n));
+        this.numBlocks = (n + blockSize - 1) / blockSize;
+        this.arr = Arrays.copyOf(data, n);
+        this.blockMax = new int[numBlocks];
+        buildBlocks();
+    }
+
+    // Step 1: Build block summaries
+    private void buildBlocks() {
+        Arrays.fill(blockMax, Integer.MIN_VALUE);
+        for (int i = 0; i < n; i++) {
+            int bIdx = i / blockSize;
+            blockMax[bIdx] = Math.max(blockMax[bIdx], arr[i]);
+        }
+    }
+
+    // Step 2: Update an element
+    public void update(int idx, int val) {
+        arr[idx] = val;
+        int bIdx = idx / blockSize;
+        int start = bIdx * blockSize;
+        int end = Math.min(start + blockSize, n);
+        blockMax[bIdx] = Integer.MIN_VALUE;
+        for (int i = start; i < end; i++) {
+            blockMax[bIdx] = Math.max(blockMax[bIdx], arr[i]);
+        }
+    }
+
+    // Step 3: Query max in range [L, R]
+    public int queryMax(int L, int R) {
+        int maxVal = Integer.MIN_VALUE;
+        int startBlock = L / blockSize;
+        int endBlock = R / blockSize;
+
+        if (startBlock == endBlock) {
+            for (int i = L; i <= R; i++) {
+                maxVal = Math.max(maxVal, arr[i]);
+            }
+        } else {
+            // left partial block
+            int endFirst = (startBlock + 1) * blockSize - 1;
+            for (int i = L; i <= endFirst; i++) {
+                maxVal = Math.max(maxVal, arr[i]);
+            }
+            // full blocks
+            for (int b = startBlock + 1; b < endBlock; b++) {
+                maxVal = Math.max(maxVal, blockMax[b]);
+            }
+            // right partial block
+            int startLast = endBlock * blockSize;
+            for (int i = startLast; i <= R; i++) {
+                maxVal = Math.max(maxVal, arr[i]);
+            }
+        }
+        return maxVal;
+    }
+}
+
+===================================================================================================
+## 7. Complexity Analysis:
+- Preprocessing: O(n)
+- Query: O(√n)
+- Update: O(√n)
+- Space: O(n) for array + O(√n) for blocks
+
+===================================================================================================
+## 8. Pros & Cons:
+Pros:
+- Easy to implement
+- Great for mixed queries + updates
+- Works for multiple types of range queries
+
+Cons:
+- Slower than Segment Tree for large constraints
+- Not as flexible for complex queries
+
+===================================================================================================
+## 9. Bhai-Wala Summary (Yuvraj Style):
+“Array ko chhote-chhote blocks mein tod do (√n size ke), har block ka ek summary ready rakho. 
+Jab query aayegi to beech ke poore blocks ka summary direct le lo, 
+aur sirf shuru aur end ke thode se elements check karo. 
+Har query/update O(√n) mein ho jaayega — mast optimization, simple implementation!”
