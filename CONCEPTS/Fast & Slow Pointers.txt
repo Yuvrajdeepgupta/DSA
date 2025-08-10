@@ -1,0 +1,87 @@
+/*
+====================================================================
+🚀 Fast & Slow Pointer (Floyd’s Tortoise & Hare) — Khandani Template
+====================================================================
+
+📌 Definition:
+Fast & Slow Pointer is a technique where two pointers traverse a data structure
+(like a linked list or array) at different speeds to solve problems in 
+O(N) time and O(1) space without extra storage.
+
+---
+
+💡 Core Idea:
+- Have two pointers:
+    - Slow pointer → moves 1 step at a time.
+    - Fast pointer → moves 2 steps at a time.
+- The difference in their speed causes them to meet at certain positions,
+  allowing detection of patterns like cycles, midpoints, intersections, etc.
+
+---
+
+====================================================================
+🧠 Why It Works:
+====================================================================
+1. **Cycle Detection Logic**:
+   - If there is a cycle, the fast pointer will eventually "lap" the slow pointer.
+   - Think of it like a circular race track: a faster runner will meet the slower one.
+
+2. **Midpoint Finding Logic**:
+   - If the fast pointer moves twice as fast, when it reaches the end,
+     the slow pointer will be at the middle.
+
+3. **Mathematical Intuition**:
+   - Relative speed = (fast speed - slow speed)
+   - This relative movement helps to predict the meeting point or midpoint.
+
+---
+
+====================================================================
+📌 Common Variations:
+====================================================================
+1. **Cycle Detection**:
+   - fast = fast.next.next
+   - slow = slow.next
+   - If they meet → cycle exists.
+
+2. **Finding Start of Cycle**:
+   - After meeting, move one pointer to head.
+   - Move both at same speed (1 step each).
+   - The point they meet again is the start of the cycle.
+
+3. **Finding Middle of Linked List**:
+   - fast moves 2 steps, slow moves 1 step.
+   - When fast reaches end → slow is at middle.
+
+4. **Array Cycle Problems (e.g., Happy Number)**:
+   - Treat numbers as pointers to next index/value.
+   - Use same meeting logic.
+
+---
+
+====================================================================
+📊 Complexity:
+====================================================================
+- **Time Complexity**: O(N) — Each pointer moves at most N steps.
+- **Space Complexity**: O(1) — Only constant extra variables.
+
+---
+
+====================================================================
+📌 Where Fast & Slow Pointer is Used:
+====================================================================
+1. Detect cycle in linked list (Floyd’s algorithm)
+2. Find start of cycle in linked list
+3. Find middle node of linked list
+4. Happy Number problem (cycle detection in numbers)
+5. Detect cycle in array "next" jumps
+6. Intersection point of two linked lists
+7. Linked list palindrome check
+8. Find loop length in linked list
+
+---
+✅ Key Tip:
+Always check `fast != null && fast.next != null` before moving fast pointer
+to avoid NullPointerException.
+====================================================================
+*/

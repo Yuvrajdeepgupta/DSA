@@ -1,0 +1,133 @@
+--------------------------------------------------------------------
+🔥 PALINDROME GENERATOR — FULL YUVRAJ-STYLE EXPLANATION
+--------------------------------------------------------------------
+
+VIDEO LINK FOR EXPLANATION - https://youtu.be/j_cFgoSJqDQ?si=6DRpghuIdYObP4lH&t=876
+
+📌 WHAT IS THIS ABOUT?
+We want to *generate* palindromes directly instead of brute-forcing and checking every number.
+
+Why?
+Because if we just loop from 1 to infinity and check if each number is a palindrome → it's slow.
+Instead, we will build palindromes mathematically and in sorted order.
+
+--------------------------------------------------------------------
+⚡ THE MAIN OBSERVATION:
+A palindrome is fully defined by its first half.
+Example:
+    1221 → first half = "12" → reverse = "21" → append to "12" → 1221
+    12321 → first half = "123" → reverse = "321" → remove the first digit "3" from reverse → append → 12321
+
+So:
+- If length is EVEN → copy the first half, then append the full reverse of it.
+- If length is ODD → copy the first half, then append reverse of it *excluding* the first character (middle digit).
+
+--------------------------------------------------------------------
+📌 STEP 1 — LENGTH DRIVEN APPROACH
+We think in terms of "length L" of the palindrome, not the value.
+
+Example:
+L = 1  → {0, 1, 2, 3, ... , 9}
+L = 2  → {11, 22, 33, ... , 99}
+L = 3  → {101, 111, 121, ... , 999}
+L = 4  → {1001, 1111, 1221, ... , 9999}
+...
+
+--------------------------------------------------------------------
+📌 STEP 2 — HOW TO CALCULATE RANGE OF HALF
+Let:
+    halfLen = (L + 1) / 2    // middle included in odd length
+    startHalf = 10^(halfLen - 1)  // to avoid leading zero
+    endHalf   = 10^halfLen - 1
+
+Example: L = 4 (even)
+    halfLen = (4+1)/2 = 2
+    startHalf = 10^(2-1) = 10
+    endHalf   = 99
+Possible halves: 10 → 99
+
+Example: L = 5 (odd)
+    halfLen = (5+1)/2 = 3
+    startHalf = 100
+    endHalf   = 999
+Possible halves: 100 → 999
+
+--------------------------------------------------------------------
+📌 STEP 3 — GENERATION LOGIC
+For each half in [startHalf, endHalf]:
+    Convert half to string → reverse it.
+    If L is EVEN:
+        palindrome = half + reverse(half)
+    If L is ODD:
+        palindrome = half + reverse(half)[1:] // skip the first char of reverse
+
+This ensures:
+- No leading zeros
+- Sorted order
+- O(1) check if palindrome → because we made it palindrome
+
+--------------------------------------------------------------------
+📌 DRY RUN EXAMPLES
+Case 1: L = 4, half = 12
+    rev = 21
+    palindrome = "12" + "21" = 1221 ✅
+
+Case 2: L = 5, half = 123
+    rev = 321
+    palindrome = "123" + "21" = 12321 ✅
+
+Case 3: L = 3, half = 10
+    rev = 01
+    palindrome = "10" + "0" = 1001 ❌ invalid for L=3 because half range chosen avoids this (start = 10 means no leading zero problem in half)
+
+--------------------------------------------------------------------
+📌 EDGE CASES:
+1. Single digit (L=1) → halfLen=1 → start=1 → palindromes {1,2,...,9}
+2. Large numbers (up to 10^15) → we never generate palindromes longer than needed.
+3. Leading zero in reverse half → not an issue because we never start half with 0.
+
+--------------------------------------------------------------------
+📌 WHY THIS WORKS — MATH PROOF:
+Number of palindromes of length L:
+    If L is EVEN: count = 9 * 10^(L/2 - 1)
+    If L is ODD:  count = 9 * 10^((L-1)/2)
+This is exactly the number of possible halves without leading zero.
+Thus, generating halves in ascending order → palindromes in ascending order.
+
+--------------------------------------------------------------------
+📌 TIME COMPLEXITY:
+Let M = target palindrome length
+    Generating all palindromes of length L takes:
+        O(10^(L/2)) iterations.
+    Each iteration:
+        - Reverse string → O(L)
+Total:
+    O(10^(L/2) * L) for each length L.
+
+Space Complexity:
+    O(L) for temporary strings.
+
+--------------------------------------------------------------------
+📌 PSEUDO CODE:
+for L = 1 to ∞:
+    halfLen = (L + 1) / 2
+    start = 10^(halfLen - 1)
+    end = 10^halfLen - 1
+
+    for half in start..end:
+        s = toString(half)
+        rev = reverse(s)
+        if L is odd:
+            pal = s + rev.substring(1)
+        else:
+            pal = s + rev
+        process pal
+
+--------------------------------------------------------------------
+📌 RELATION TO OUR kMirror CODE:
+In kMirror:
+    - L is the length of palindrome in base 10.
+    - We generate palindromes using the same method above.
+    - Then we convert to base-k and check if THAT is also palindrome.
+
+--------------------------------------------------------------------
