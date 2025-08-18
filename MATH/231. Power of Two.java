@@ -27,12 +27,17 @@
 // ----------------------------------------------------
 // 🔹 Java Code
 // ----------------------------------------------------
+
+
+
 class Solution {
     public boolean isPowerOfTwo(int n) 
     {
         return n > 0 && 1073741824 % n == 0;
     }
 }
+
+
 
 // ----------------------------------------------------
 // 🔹 Example Walkthrough
@@ -64,12 +69,18 @@ Example for n = 8 (1000 in binary)
 n - 1 = 7 (0111 in binary)
 1000 & 0111 = 0000 → hence power of two.
 
+
+
 */
-class SolutionBit {
-    public boolean isPowerOfTwo(int n) {
+class SolutionBit 
+{
+    public boolean isPowerOfTwo(int n) 
+       {
         return n > 0 && (n & (n - 1)) == 0;
     }
 }
+
+
 
 /*
 🕒 Time Complexity: O(1) — Single bitwise operation.

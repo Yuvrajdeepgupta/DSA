@@ -1,0 +1,77 @@
+/*
+Kadane's Algorithm (Generalized Template)
+-----------------------------------------
+Kadane’s Algorithm is a dynamic programming technique used to solve
+maximum/minimum subarray problems in O(n) time and O(1) space.
+
+Video link - https://youtu.be/lq8KOs1Ujas?si=jyR7Oe4Vayga2A1E
+
+Core Idea:
+----------
+At each element, you have two choices:
+1. Extend the previous subarray (add current element to running sum/product)
+2. Start a new subarray from the current element
+
+We choose the better option at each step.
+
+Why it Works:
+-------------
+It uses the fact that any prefix of the subarray that has a negative contribution
+to the sum/product should be dropped, because starting fresh from the current element
+would yield a better result.
+
+General Formula (for Maximum Sum):
+----------------------------------
+current = max(nums[i], current + nums[i])
+answer = max(answer, current)
+
+General Formula (for Maximum Product):
+--------------------------------------
+For products, we must track BOTH maximum and minimum product at each step,
+because multiplying by a negative number flips signs:
+tempMax = max(nums[i], nums[i] * prevMax, nums[i] * prevMin)
+tempMin = min(nums[i], nums[i] * prevMax, nums[i] * prevMin)
+answer = max(answer, tempMax)
+(prevMax, prevMin) = (tempMax, tempMin)
+
+Steps:
+------
+1. Initialize:
+   - For sum: currentSum = nums[0], maxSum = nums[0]
+   - For product: maxProd = nums[0], minProd = nums[0], answer = nums[0]
+
+2. Traverse the array from index 1:
+   - Update the running current sum/product
+   - Update the global answer
+
+3. Return the answer
+
+Complexity:
+-----------
+Time Complexity: O(n)  — single pass
+Space Complexity: O(1) — constant extra variables
+
+Variations:
+-----------
+1. Maximum Subarray Sum
+2. Maximum Product Subarray
+3. Minimum Subarray Sum (invert signs)
+4. Circular Maximum Subarray (Kadane twice)
+5. 2D Maximum Submatrix Sum (Kadane applied row-wise)
+6. With constraints (length limit, skips, etc.)
+
+Example — Maximum Subarray Sum:
+-------------------------------
+class Solution {
+    public int maxSubArray(int[] nums) {
+        int currentSum = nums[0];
+        int maxSum = nums[0];
+
+        for (int i = 1; i < nums.length; i++) {
+            currentSum = Math.max(nums[i], currentSum + nums[i]);
+            maxSum = Math.max(maxSum, currentSum);
+        }
+
+        return maxSum;
+    }
+}

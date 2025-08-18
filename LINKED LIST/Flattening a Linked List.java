@@ -193,6 +193,50 @@ class Solution
 
 /*
 ------------------------------------------------------
+✅ APPROACH 4: PURE RECURSIVE (BEST AND INTIUTUVE)
+------------------------------------------------------
+Flattening a Linked List (Recursive Merge Approach)
+
+class Solution {
+    // Function to flatten a linked list
+    Node flatten(Node root) 
+    {
+       if(root==null || root.next==null)
+       {
+           return root;
+       }
+       
+       Node store=flatten(root.next);
+       return merge(root,store);
+    }
+    
+    Node merge(Node head1,Node head2)
+    {
+        if(head1==null)
+        {
+            return head2;
+        }
+        else if(head2==null)
+        {
+            return head1;
+        }
+        
+        if(head1.data<=head2.data)
+        {
+            head1.bottom=merge(head1.bottom,head2);
+            return head1;
+        }
+        else
+        {
+            head2.bottom=merge(head1,head2.bottom);
+            return head2;
+        }
+        
+    }
+}
+
+/*
+------------------------------------------------------
 📊 TIME & SPACE COMPLEXITY
 ------------------------------------------------------
 
@@ -200,11 +244,15 @@ Let N = number of horizontal `.next` nodes
 Let M = average length of vertical `.bottom` lists
 
 ⏱️ Time Complexity: O(N * M)
-- Every merge takes O(M)
-- Merges happen N times
+- N = number of nodes in the "next" chain
+- M = average number of nodes in each "bottom" chain
+- Each merge takes O(length1 + length2)
+- Worst case merging forms sequence: M + 2M + 3M + ... + N*M
+- Total = O(N^2 * M)
 
 📦 Space Complexity:
 - Iterative: O(1) auxiliary (in-place)
+- Depth of recursion = O(N)
 - Recursive: O(N) due to recursion stack
 
 ------------------------------------------------------
