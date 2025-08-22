@@ -1,0 +1,177 @@
+/*
+🔗 Question Link: https://leetcode.com/problems/number-of-zero-filled-subarrays/description/?envType=daily-question&envId=2025-08-19
+🎥 Solution Reference: https://youtu.be/5sC5MUcF-Qc?si=YUEEaXq6_ydSrybt
+
+------------------------------------------------
+📌 Problem Statement:
+We are given an integer array `nums`. 
+We need to count the total number of subarrays that consist only of `0`s.
+
+A subarray is defined as a contiguous non-empty sequence of elements within an array.
+
+Example:
+Input: nums = [0,0,0]
+Output: 6
+Explanation:
+Subarrays -> [0], [0], [0], [0,0], [0,0], [0,0,0]
+
+------------------------------------------------
+🔎 Problem Breakdown:
+- Every continuous segment of zeros contributes multiple subarrays.
+- If we have a segment of `n` consecutive zeros:
+  - Number of subarrays formed = (n * (n + 1)) / 2
+
+Example:
+nums = [1, 0, 0, 2]
+- Segment of 2 zeros -> (2*3)/2 = 3 subarrays
+Final Answer = 3
+
+------------------------------------------------
+💡 Approaches:
+
+------------------------------------------------
+1️⃣ My Approach (Flag + Tracking Start Index):
+class Solution {
+    public long zeroFilledSubarray(int[] nums) 
+    {
+        int n = nums.length;
+        long count = 0;
+        boolean flag = false;
+        int i = -1;
+
+        for(int j = 0; j < n; j++)
+        {
+            int curr = nums[j];
+            if(!flag && curr == 0)
+            {
+                i = j;
+                count += (j - i + 1);
+                flag = true;
+            }
+            else if(flag && curr == 0)
+            {
+                count += (j - i + 1);
+            }
+            else
+            {
+                flag = false;
+            }
+        }
+        return count;
+    }
+}
+
+🔸 Pros:
+- Works correctly.
+- Uses basic flag logic to detect zero segments.
+
+🔸 Cons:
+- Over-complicated with `flag` and `i`.
+- Not as clean and intuitive.
+
+⏱️ TC: O(n)  
+💾 SC: O(1)
+
+------------------------------------------------
+2️⃣ Good Approach (Mathematical Formula per Zero Segment):
+class Solution {
+    public long zeroFilledSubarray(int[] nums) 
+    {
+        int num = nums.length;
+        long count = 0;
+        int i = 0;
+
+        while(i < num)
+        {
+            if(nums[i] == 0)
+            {
+                int j = i;
+                while(j < num && nums[j] == 0)
+                {
+                    j++;
+                }
+
+                int n = j - i;  // length of zero segment
+                count += (((long)n * (n + 1)) / 2);  // formula for subarrays
+                i = j;
+            }
+            else
+            {
+                i++;
+            }
+        }
+        return count;
+    }
+}
+
+🔸 Pros:
+- Very clear with math formula `(n*(n+1))/2`.
+- Easy to explain in interviews.
+
+🔸 Cons:
+- Inner while loop detects zero segment → still traverses again.
+- Double traversal in zero segments.
+
+⏱️ TC: O(n)  
+💾 SC: O(1)
+
+------------------------------------------------
+3️⃣ Optimal Approach (Running Count of Zero Subarrays):
+class Solution {
+    public long zeroFilledSubarray(int[] nums) 
+    {
+        long count = 0, zero = 0;
+        for(int curr : nums)
+        {
+            if(curr == 0)
+            {
+                zero++;
+                count += zero;  // every new zero extends previous subarrays
+            }
+            else
+            {
+                zero = 0;  // reset on non-zero
+            }
+        }
+        return count;
+    }
+}
+
+🔸 Pros:
+- Single pass, no extra checks.
+- Very clean and elegant.
+- Directly counts subarrays as we go.
+
+🔸 Cons:
+- None (this is the best approach).
+
+⏱️ TC: O(n)  
+💾 SC: O(1)
+
+------------------------------------------------
+📝 Example Walkthrough:
+nums = [0,0,1,0]
+
+Using Optimal:
+- i=0 → zero=1 → count=1
+- i=1 → zero=2 → count=3
+- i=2 → reset zero=0
+- i=3 → zero=1 → count=4
+Final Answer = 4
+
+------------------------------------------------
+📊 Comparison:
+- My Approach → Works but over-complicated.
+- Good Approach → Clear, but re-traverses zero segments.
+- Optimal Approach → Most elegant, clean O(n), O(1).
+
+------------------------------------------------
+🎯 Summary (Yuvraj way):
+Bhai simple funda hai —
+- Jitne continuous zero mile, utne subarray banenge.
+- Ek zero aaya → 1 subarray
+- Do zero aaya → 1 (new) + extend previous → 3 total
+- Formula = keep adding streak length.
+- Optimal = traverse once, maintain `zero`, add to count.
+- Best solution ✅ (O(n), O(1)).
+*/

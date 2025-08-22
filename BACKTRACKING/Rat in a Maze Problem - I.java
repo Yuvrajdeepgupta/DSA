@@ -26,6 +26,10 @@ class Solution
     
     public ArrayList<String> ratInMaze(int[][] maze) 
     {
+	if(maze[0][0]==0 || maze[(maze.length)-1][(maze.length)-1]==0)
+        {
+            return list;
+        }
         ArrayList<String> ans = new ArrayList<>();
         solve(0, 0, maze, ans);
         return ans;

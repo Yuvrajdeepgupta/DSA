@@ -2,8 +2,11 @@
 LeetCode Q: Palindrome Linked List
 https://leetcode.com/problems/palindrome-linked-list/description/
 
-Solution Link (Video):
+Solution Link (Video-1):
 https://youtu.be/Sgi2BHiW0-Q?si=xIkD24dv-ufavKLL
+
+Solution Link (Video-2):
+https://youtu.be/IZ6e4QrYVyk?si=48t_XLr2l_1G4qQR
 ---------------------------------------------
 
 📝 Problem Statement:

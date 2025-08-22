@@ -1,0 +1,147 @@
+# Topic: How to Traverse a HashMap in Java
+
+------------------------------------------------
+📌 Problem Context:
+In Java, a HashMap stores key-value pairs.  
+Many times, we need to **iterate over a HashMap** to access keys, values, or both.  
+There are multiple ways to traverse a HashMap — interviewer may ask for different approaches.
+
+------------------------------------------------
+💡 Intuition:
+A HashMap doesn’t maintain insertion order.  
+So when traversing, you usually get entries in arbitrary order.  
+Traversal depends on whether you need:
+- Only keys
+- Only values
+- Both keys & values (entries)
+
+------------------------------------------------
+🛠️ Approaches to Traverse HashMap:
+
+// 1. Using entrySet() - most common
+for (Map.Entry<Integer, String> entry : map.entrySet()) {
+    System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue());
+}
+
+// 2. Using keySet()
+for (Integer key : map.keySet()) {
+    System.out.println("Key: " + key + ", Value: " + map.get(key));
+}
+
+// 3. Using values()
+for (String val : map.values()) {
+    System.out.println("Value: " + val);
+}
+
+// 4. Using Iterator with entrySet()
+Iterator<Map.Entry<Integer, String>> it = map.entrySet().iterator();
+while (it.hasNext()) {
+    Map.Entry<Integer, String> entry = it.next();
+    System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue());
+}
+
+// 5. Using Java 8 forEach with Lambda
+map.forEach((key, value) -> {
+    System.out.println("Key: " + key + ", Value: " + value);
+});
+
+// 6. Using Java 8 Streams
+map.entrySet().stream()
+   .forEach(entry -> System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue()));
+
+-----------------------------------------------------------------------------------------------
+/////CODE TUTORIAL//////
+-----------------------------------------------------------------------------------------------
+
+import java.util.*;
+
+public class HashMapTraversalTemplate 
+{
+    public static void main(String[] args) 
+    {
+        // Step 1: Create & Populate HashMap
+        HashMap<Integer, String> map = new HashMap<>();
+        map.put(1, "Apple");
+        map.put(2, "Banana");
+        map.put(3, "Mango");
+        map.put(4, "Orange");
+
+        // ============================================================
+        // Approach 1: Traversing using entrySet() with for-each loop
+        // ============================================================
+        System.out.println("Approach 1: Using entrySet() with for-each loop");
+        for (Map.Entry<Integer, String> entry : map.entrySet()) 
+        {
+            System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
+        }
+
+        // ============================================================
+        // Approach 2: Traversing using keySet() (only keys, then get value)
+        // ============================================================
+        System.out.println("\nApproach 2: Using keySet()");
+        for (Integer key : map.keySet()) 
+        {
+            System.out.println("Key = " + key + ", Value = " + map.get(key));
+        }
+
+        // ============================================================
+        // Approach 3: Traversing using values() (only values)
+        // ============================================================
+        System.out.println("\nApproach 3: Using values()");
+        for (String value : map.values()) 
+        {
+            System.out.println("Value = " + value);
+        }
+
+        // ============================================================
+        // Approach 4: Using Iterator with entrySet()
+        // ============================================================
+        System.out.println("\nApproach 4: Using Iterator on entrySet()");
+        Iterator<Map.Entry<Integer, String>> itr = map.entrySet().iterator();
+        while (itr.hasNext()) 
+        {
+            Map.Entry<Integer, String> entry = itr.next();
+            System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
+        }
+
+        // ============================================================
+        // Approach 5: Using forEach method (Java 8+)
+        // ============================================================
+        System.out.println("\nApproach 5: Using forEach (Java 8+ Lambda)");
+        map.forEach((key, value) -> System.out.println("Key = " + key + ", Value = " + value));
+
+        // ============================================================
+        // Approach 6: Using streams (Java 8+)
+        // ============================================================
+        System.out.println("\nApproach 6: Using streams");
+        map.entrySet()
+           .stream()
+           .forEach(entry -> System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue()));
+
+        // ============================================================
+        // Approach 7: Using Map.Entry<> in enhanced for loop (Java 9+)
+        // ============================================================
+        System.out.println("\nApproach 7: Using Map.entry<> (Java 9+)");
+        for (Map.Entry<Integer, String> entry : map.entrySet()) 
+        {
+            System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
+        }
+
+        // Done ✅
+    }
+}
+
+// ======================================================================
+// Summary (Yuvraj Way):
+// - entrySet() → best when you need both key and value
+// - keySet()   → best when you only care about keys (but fetching value needs map.get())
+// - values()   → best when you only care about values
+// - Iterator   → useful if you want to remove items while iterating
+// - forEach()  → clean, modern style with lambda (Java 8+)
+// - streams    → best if you want filtering/mapping/advanced ops
+// - Map.entry<> is shorthand available from Java 9+
+//
+// TC: O(n) for all traversals
+// SC: O(1) (only iterators/references are created)
+//
+// ======================================================================
