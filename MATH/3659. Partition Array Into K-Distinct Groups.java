@@ -3,7 +3,7 @@ https://leetcode.com/problems/partition-array-into-k-distinct-groups/
 
 # Solution Video Link:
 https://www.youtube.com/watch?v=IJs2xKNbR5g&ab_channel=RajanKeshari%28CSE-IITDhanbad%29
-
+https://youtu.be/quujgfoQ9UQ?si=8O2qCrtAZV19tpBY
 
 
 WHAT IS PIGEONHOLE PRINCIPLE???

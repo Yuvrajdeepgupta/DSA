@@ -1,0 +1,73 @@
+Topic: Iterating Over a 2D Matrix
+
+-----------------------------------------------------------
+Problem Context:
+Many matrix-based questions (like diagonal traversal, spiral order, etc.) require iterating over each cell of a 2D array systematically. 
+The fundamental way is using nested loops to access elements row by row or column by column.
+
+-----------------------------------------------------------
+Intuition:
+- A matrix is essentially an array of arrays.
+- For a matrix with dimensions m x n:
+  - Outer loop iterates over rows.
+  - Inner loop iterates over columns.
+- Access each element using indices: mat[i][j].
+
+-----------------------------------------------------------
+Basic Java Code (Row-wise iteration):
+
+int rows = mat.length;        // number of rows
+int cols = mat[0].length;     // number of columns
+
+for (int i = 0; i < rows; i++)      // iterate rows
+{
+    for (int j = 0; j < cols; j++)  // iterate columns
+    {
+        System.out.print(mat[i][j] + " ");  // access element
+    }
+}
+
+-----------------------------------------------------------
+Other Variations:
+1) Column-wise iteration:
+for (int j = 0; j < cols; j++)
+{
+    for (int i = 0; i < rows; i++)
+    {
+        System.out.print(mat[i][j] + " ");
+    }
+}
+
+2) Using Enhanced For-Loop (cleaner for read-only):
+for (int[] row : mat)
+{
+    for (int val : row)
+    {
+        System.out.print(val + " ");
+    }
+}
+
+-----------------------------------------------------------
+Example Walkthrough:
+Input matrix:
+1 2 3
+4 5 6
+7 8 9
+
+Row-wise iteration order: 1 2 3 4 5 6 7 8 9
+Column-wise iteration order: 1 4 7 2 5 8 3 6 9
+
+-----------------------------------------------------------
+Time Complexity:
+- O(m * n) where m = number of rows, n = number of columns
+- Every element is visited exactly once.
+
+Space Complexity:
+- O(1) extra space (just loop counters)
+
+-----------------------------------------------------------
+Yuvraj Way (Summary):
+Matrix = array of arrays. Outer loop = rows, inner loop = columns. 
+Standard pattern: for(i over rows) for(j over cols). 
+Know variations (row-wise, col-wise, enhanced loop) since most matrix problems build on this base pattern.
+-----------------------------------------------------------

@@ -1,0 +1,125 @@
+/*
+==========================================
+Question: Diagonal Traversal of Matrix (Both Directions)
+------------------------------------------
+
+Video SOL(MUST WATCH): https://youtu.be/7HAKiGZSrWc?si=QIAP81q9E-uKYQGX&t=120
+
+- Diagonal traversal can be done in two ways:
+  1) Using (i + j): Diagonals go ↙↗ (top-right to bottom-left)
+     - All cells having same (i + j) belong to the same diagonal.
+     - Useful for problems like: https://leetcode.com/problems/diagonal-traverse/description/
+
+  2) Using (i - j): Diagonals go ↖↘ (top-left to bottom-right)
+     - All cells having same (i - j) belong to the same diagonal.
+     - Often used in matrix-based pattern problems or anti-diagonal traversals.
+
+------------------------------------------
+Why it works:
+- Each cell in a matrix can be represented by coordinates (i, j).
+- The sum (i + j) is constant for diagonals going ↙↗.
+- The difference (i - j) is constant for diagonals going ↖↘.
+
+------------------------------------------
+General Traversal Template:
+
+for (int i = 0; i < rows; i++) {
+    for (int j = 0; j < cols; j++) {
+        // For ↙↗ diagonal grouping:
+        mapUsingSum.computeIfAbsent(i + j, key -> new ArrayList<>()).add(mat[i][j]);
+
+        // For ↖↘ diagonal grouping:
+        mapUsingDiff.computeIfAbsent(i - j, key -> new ArrayList<>()).add(mat[i][j]);
+    }
+}
+
+------------------------------------------
+Usage:
+- After filling the map, iterate over its keys to process diagonals as per problem requirement.
+- For example, reverse alternate diagonals for zig-zag patterns.
+
+------------------------------------------
+Time Complexity:
+- O(m * n): We visit each cell exactly once.
+- Grouping/processing diagonals also takes O(m * n).
+
+Space Complexity:
+- O(m * n): Storing all elements in hashmaps/lists for diagonals.
+
+------------------------------------------
+Key Idea:
+- Use (i + j) when diagonals are ↙↗ (like Diagonal Traverse problem).
+- Use (i - j) when diagonals are ↖↘.
+- Both techniques are highly reusable.
+
+------------------------------------------
+Summary (Yuvraj way):
+- (i + j) → top-right to bottom-left.
+- (i - j) → top-left to bottom-right.
+- Both rely on grouping indices with same sum or difference.
+==========================================
+*/
+
+
+------------------------------------------------------------------------------------------------------
+CODE-
+
+import java.util.*;
+
+public class DiagonalTraversalTemplate 
+{
+    public static void main(String[] args) 
+    {
+        int[][] matrix = {
+            {1, 2, 3},
+            {4, 5, 6},
+            {7, 8, 9}
+        };
+
+        int m = matrix.length;      // number of rows
+        int n = matrix[0].length;   // number of columns
+
+        // ------------------------------
+        // 1) Traversal using (i + j)
+        // ------------------------------
+        // Elements with the same (i + j) are on the same ↙↗ diagonal (anti-diagonal).
+        // Example: (0,2), (1,1), (2,0) all have i+j=2.
+        Map<Integer, List<Integer>> sumMap = new HashMap<>();
+
+        for (int i = 0; i < m; i++) 
+        {
+            for (int j = 0; j < n; j++) 
+            {
+                // computeIfAbsent: creates a new list if key is not present
+                sumMap.computeIfAbsent(i + j, k -> new ArrayList<>()).add(matrix[i][j]);
+            }
+        }
+
+        System.out.println("Diagonals using (i + j):");
+        for (int key : sumMap.keySet()) 
+        {
+            System.out.println("Sum " + key + " -> " + sumMap.get(key));
+        }
+
+        // ------------------------------
+        // 2) Traversal using (i - j)
+        // ------------------------------
+        // Elements with the same (i - j) are on the same ↖↘ diagonal (main diagonal).
+        // Example: (0,0), (1,1), (2,2) all have i-j=0.
+        Map<Integer, List<Integer>> diffMap = new HashMap<>();
+
+        for (int i = 0; i < m; i++) 
+        {
+            for (int j = 0; j < n; j++) 
+            {
+                diffMap.computeIfAbsent(i - j, k -> new ArrayList<>()).add(matrix[i][j]);
+            }
+        }
+
+        System.out.println("\nDiagonals using (i - j):");
+        for (int key : diffMap.keySet()) 
+        {
+            System.out.println("Diff " + key + " -> " + diffMap.get(key));
+        }
+    }
+}
