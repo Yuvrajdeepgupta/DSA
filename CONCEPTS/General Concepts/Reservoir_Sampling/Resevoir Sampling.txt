@@ -1,0 +1,91 @@
+RESERVOIR SAMPLING
+-----------------------------------------------------------------------------------------------------------
+video link 1- https://youtu.be/DWZqBN9efGg?si=HTLGbVND5ngaaGIW
+video link 2- https://youtu.be/9vC4I5sKFsw?si=hQoplIMjzf8PUFl7
+-----------------------------------------------------------------------------------------------------------
+
+Reservoir Sampling ek randomized algorithm hai jo mainly tab use hota hai jab tumhe ek stream of data (ya unknown/very large dataset) me se k elements uniformly at random select karne hote hain, without knowing the total size in advance.
+
+OR 
+
+You have a data stream (or a linked list) whose length n you don’t know in advance.
+You want to pick 1 random element such that each element has equal probability = 1/n.
+But you cannot store all elements in memory.
+
+
+Intuition(easy peasy)
+---------------------
+Maan lo tum ek infinite stream of numbers dekh rahe ho (ek ek karke aate jaa rahe hain), aur tumhe end me bas 1 random element chahiye jo uniformly random ho (har element ke choose hone ka equal chance ho).
+
+Agar tum puri stream ko memory me store kar loge, fir Random se pick kar loge → easy, but memory me problem (stream ka size huge ho sakta hai).
+
+Reservoir Sampling tumhe allow karta hai ki constant memory (O(k)) me random sample maintain karo
+
+
+MY WORDINGS(bhai bhai ki bat) -- 
+-------------------------------
+"Random number generate krenge 0 se count-1 tak, agar ==0 aaya toh current ko chun lo, warna pehle se kisi ko chance mila hi h, usi ko rehne do."
+
+
+How it works (for k = 1)
+------------------------
+1>Pehle element aata hai → use hi choose kar lo (probability 1).
+2>Dusra element aata hai → usse 50% chance do ki wo select ho, aur 50% chance ki pehle wala hi rahe.
+3>Teesra element aata hai → usse 1/3 chance do ki wo select ho, aur 2/3 chance ki pehle ke elements me se koi ek selected rahe.
+4>n-th element aata hai → usse 1/n chance do ki wo select ho, aur 1 - 1/n chance ki existing element hi selected rahe.
+5>End me, sab ke liye equal chance hota hai (proof probability ke through hoti hai).
+
+
+Par ==0 hi kyu?
+------------------
+Actually ==0 bas ek choice hai. Hum ==1 ya == count-1 bhi le sakte the, fark nahi padta.
+Kyunki random number har baar equal probability se [0 … count-1] aata hai. Matlab har element ko 1/count ka chance mil raha hai select hone ka.
+
+
+EXAMPLE QUE - LEETCODE 328
+-------------------------
+
+class Solution 
+{
+    ListNode head;
+    Random rand;
+
+    public Solution(ListNode head) 
+    {
+        this.head=head;
+        rand=new Random();  // random number generator
+    }
+    
+    public int getRandom() 
+    {
+        int result=-1;      // answer store karega
+        int count=1;        // kitne nodes dekhe hain uska counter
+        ListNode temp=head; // traversal pointer
+
+        while(temp!=null)
+        {
+            // step: current node ko 1/count chance do select hone ka
+            if(rand.nextInt(count)==0)
+            {
+                result=temp.val;  // agar select ho gaya to replace result
+            }
+
+            temp=temp.next; // next node pe move
+            count++;        // nodes count increase
+        }
+
+        return result;
+    }
+}
+
+
+Har step pe hum ek random number lete hain range 0 .. count-1.
+
+Fir decide karte hain ki agar ek particular fixed number aaya (maan le 0 ya 1 ya count-1), tabhi current element ko select karo.
+
+Agar wo number nahi aaya → matlab current element reject ho gaya aur koi purana element hi result me reh gaya.
+
+Aur kyunki har number ke aane ka chance equal (1/count) hai → current element ka bhi chance 1/count hi hota hai.
+Isi tarah har element ko last tak equal probability (1/n) mil jati hai. ✅
+
+-------------------------------------------------------------------------------------------------------------
