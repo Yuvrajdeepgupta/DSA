@@ -1,0 +1,138 @@
+========================================================
+🔗 Concept: Counting Sort (Universal Template)
+========================================================
+
+Video Link 1 - https://youtu.be/e644HVGFAJY?si=U4xo_iupTHSICEx2
+Video Link 2 - https://youtu.be/ZcUdXuzOzeU?si=fY_SqZfq5XIYeKwF
+GFG Article Link- https://www.geeksforgeeks.org/dsa/counting-sort/
+----------------------------------------------------------------
+💡 Problem Breakdown:
+Counting Sort is a **non-comparison-based sorting algorithm**.
+- Works best when:
+  1. The range of input numbers (max - min) is not very large compared to n.
+  2. Elements are integers (or can be mapped to integers).
+- Instead of comparing elements, we count their frequency and use that to place them directly in the output.
+
+⚡ Key Idea:
+1. Count frequency of each element.
+2. Compute prefix sums (cumulative count) → helps in stable sorting.
+3. Place each element in its correct position in the output array using prefix sums.
+4. Copy result back.
+
+========================================================
+
+💡 Intuition:
+Why does Counting Sort work?
+- Normally, sorting needs comparisons (O(n log n)).
+- But if numbers are bounded within a range [min, max], we can just count how many times each number appears.
+- Once we know frequency, we can rebuild the sorted array directly.
+- Stable version → uses cumulative counts, so relative order of equal elements is preserved.
+
+========================================================
+
+💡 Example (Dry Run):
+Input: arr = [4, 2, 2, 8, 3, 3, 1]
+
+Step 1: Find min & max → min=1, max=8
+Range size = 8 - 1 + 1 = 8
+
+Step 2: Build frequency array
+freq = [0,1,2,2,1,0,0,1]   // index corresponds to [1..8]
+
+Step 3: Prefix sum (for stable sorting)
+freq = [0,1,3,5,6,6,6,7]   // tells us last index position of each number
+
+Step 4: Place elements in output (iterate original array backwards for stability):
+- arr[6]=1 → freq[1]=1 → output[0]=1
+- arr[5]=3 → freq[3]=5 → output[4]=3
+- arr[4]=3 → freq[3]=4 → output[3]=3
+- arr[3]=8 → freq[8]=7 → output[6]=8
+- arr[2]=2 → freq[2]=3 → output[2]=2
+- arr[1]=2 → freq[2]=2 → output[1]=2
+- arr[0]=4 → freq[4]=6 → output[5]=4
+
+Final Output: [1,2,2,3,3,4,8]
+
+========================================================
+
+✅ Universal Java Code (Stable Counting Sort):
+
+import java.util.*;
+
+class CountingSort {
+    public static void countingSort(int[] arr) {
+        if (arr.length == 0) return;
+
+        int n = arr.length;
+        int min = arr[0], max = arr[0];
+
+        // Step 1: Find min and max
+        for (int num : arr) {
+            min = Math.min(min, num);
+            max = Math.max(max, num);
+        }
+
+        int range = max - min + 1;
+        int[] freq = new int[range];
+
+        // Step 2: Frequency count
+        for (int num : arr) {
+            freq[num - min]++;
+        }
+
+        // Step 3: Prefix sum (cumulative count)
+        for (int i = 1; i < range; i++) {
+            freq[i] += freq[i - 1];
+        }
+
+        // Step 4: Build output array (stable)
+        int[] output = new int[n];
+        for (int i = n - 1; i >= 0; i--) {
+            int num = arr[i];
+            int idx = freq[num - min] - 1;
+            output[idx] = num;
+            freq[num - min]--;
+        }
+
+        // Step 5: Copy back to original
+        System.arraycopy(output, 0, arr, 0, n);
+    }
+
+    // Driver for testing
+    public static void main(String[] args) {
+        int[] arr = {4, 2, 2, 8, 3, 3, 1};
+        countingSort(arr);
+        System.out.println(Arrays.toString(arr)); // [1,2,2,3,3,4,8]
+    }
+}
+
+========================================================
+
+⏱️ Time Complexity:
+- Finding min & max: O(n)
+- Counting frequency: O(n)
+- Prefix sum: O(range)
+- Building output: O(n)
+- Overall: O(n + range)
+
+🗂️ Space Complexity:
+- Extra space for frequency array (range size).
+- Output array of size n.
+- Space = O(n + range)
+
+========================================================
+
+📝 Yuvraj Summary (Easy Style):
+Bhai scene simple hai —
+- Har element ka frequency count kar lo.
+- Fir prefix sum nikal lo, jo batata hai element ki last index position.
+- Array ko reverse traverse karke stable output banao.
+- Copy back to original.
+
+Counting Sort tab best hai jab range chhoti ho (max-min ~ n ya usse chhoti).  
+Otherwise space aur time waste hoga.
+
+
+NOW THIS TEMPLATE CAN BE USED IN MANY AREAS SUCH AS FREQ ARRAY,STRING FREQ QUESTION ETC. (VERY USEFUL)
+MAAAAAL ALGO HAI BHAI
+========================================================

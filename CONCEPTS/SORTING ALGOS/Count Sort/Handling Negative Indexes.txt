@@ -1,0 +1,131 @@
+========================================================
+🔗 Concept: Counting Sort (Handling Negative Numbers)
+========================================================
+
+💡 Problem Breakdown:
+- Standard Counting Sort works when all elements are non-negative integers.
+- But if the array contains negative numbers, we must adjust indices.
+- Trick: Find the minimum element (which may be negative), and "shift" all numbers so that the minimum maps to index 0.
+
+⚡ Key Idea:
+1. Find `min` and `max` of array.
+2. Shift index: value `num` maps to `num - min` (so min maps to 0).
+3. Perform counting sort steps normally using this shifted index.
+4. Final array is sorted in original order.
+
+========================================================
+
+💡 Intuition:
+- Suppose arr = [-5, -10, 0, -3, 8, 5, -1, 10]
+- min = -10, max = 10 → range = (10 - (-10) + 1) = 21
+- Now shift each element by +10:
+  - arr[i] - min → so -10 → 0, -5 → 5, -1 → 9, 0 → 10, etc.
+- After shifting, everything becomes non-negative, so we can apply counting sort.
+
+========================================================
+
+💡 Example (Dry Run):
+Input: arr = [-5, -10, 0, -3, 8, 5, -1, 10]
+
+Step 1: Find min=-10, max=10
+Range = 21
+
+Step 2: Frequency array after shifting (arr[i]-min):
+freq[0]++ (for -10)
+freq[5]++ (for -5)
+freq[7]++ (for -3)
+freq[9]++ (for -1)
+freq[10]++ (for 0)
+freq[15]++ (for 5)
+freq[18]++ (for 8)
+freq[20]++ (for 10)
+
+Step 3: Prefix sum (cumulative freq)
+Now freq[i] tells position in output.
+
+Step 4: Build output (iterate arr backwards for stability).
+
+Final Sorted Output:
+[-10, -5, -3, -1, 0, 5, 8, 10]
+
+========================================================
+
+✅ Universal Java Code (Counting Sort with Negatives):
+
+import java.util.*;
+
+class CountingSortNegatives {
+    public static void countingSort(int[] arr) {
+        if (arr.length == 0) return;
+
+        int n = arr.length;
+        int min = arr[0], max = arr[0];
+
+        // Step 1: Find min and max
+        for (int num : arr) {
+            min = Math.min(min, num);
+            max = Math.max(max, num);
+        }
+
+        int range = max - min + 1;
+        int[] freq = new int[range];
+
+        // Step 2: Count frequencies (shifted by min)
+        for (int num : arr) {
+            freq[num - min]++;
+        }
+
+        // Step 3: Prefix sum (cumulative count)
+        for (int i = 1; i < range; i++) {
+            freq[i] += freq[i - 1];
+        }
+
+        // Step 4: Build output (stable sort)
+        int[] output = new int[n];
+        for (int i = n - 1; i >= 0; i--) {
+            int num = arr[i];
+            int idx = freq[num - min] - 1;
+            output[idx] = num;
+            freq[num - min]--;
+        }
+
+        // Step 5: Copy back to original array
+        System.arraycopy(output, 0, arr, 0, n);
+    }
+
+    // Driver
+    public static void main(String[] args) {
+        int[] arr = {-5, -10, 0, -3, 8, 5, -1, 10};
+        countingSort(arr);
+        System.out.println(Arrays.toString(arr)); 
+        // [-10, -5, -3, -1, 0, 5, 8, 10]
+    }
+}
+
+========================================================
+
+⏱️ Time Complexity:
+- Finding min & max: O(n)
+- Counting frequencies: O(n)
+- Prefix sum: O(range)
+- Building output: O(n)
+- Overall: O(n + range)
+
+🗂️ Space Complexity:
+- Frequency array of size (max - min + 1)
+- Output array of size n
+- Total: O(n + range)
+
+========================================================
+
+📝 Yuvraj Summary (Easy Style):
+Bhai, jab negatives aajaye counting sort mein —
+- Sabse pehle min aur max nikal lo.
+- Fir har element ko shift karo by `-min` (taaki min → index 0).
+- Frequency array banao, prefix sum nikal lo.
+- Output array banake stable tarike se bharo.
+- Copy back to original.
+
+Bas range ka dhyaan rakhna hai, agar max-min bohot bada hai toh counting sort waste ho jayega.
+
+========================================================
