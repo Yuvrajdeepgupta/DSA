@@ -131,6 +131,50 @@ public class HashMapTraversalTemplate
     }
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
+-VAR KEYWORD-
+
+// -------------------------------
+// var keyword in Java
+// -------------------------------
+// Introduced in Java 10
+// Used for type inference → compiler automatically figures out the type
+// Works only for local variables (inside methods, loops, etc.)
+// Not allowed for fields, method parameters, or return types
+
+// Example:
+var num = 10;        // compiler infers int
+var name = "Gupta";  // compiler infers String
+
+
+// -------------------------------
+// Traversing a HashMap using var
+// -------------------------------
+import java.util.*;
+
+class Demo {
+    public static void main(String[] args) {
+        HashMap<Integer, String> map = new HashMap<>();
+        map.put(1, "Apple");
+        map.put(2, "Banana");
+        map.put(3, "Mango");
+
+        // Using var in enhanced for loop
+        for (var pair : map.entrySet()) {
+            // pair is of type Map.Entry<Integer, String>
+            System.out.println(pair.getKey() + " -> " + pair.getValue());
+        }
+    }
+}
+
+/*
+Output:
+1 -> Apple
+2 -> Banana
+3 -> Mango
+*/
+
+
 // ======================================================================
 // Summary (Yuvraj Way):
 // - entrySet() → best when you need both key and value

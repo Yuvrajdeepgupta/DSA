@@ -1,0 +1,96 @@
+/*
+===========================================================
+Topic: Count Digits using Math.log10
+===========================================================
+
+Problem Statement:
+------------------
+Given an integer n, find the number of digits in it.
+
+-----------------------------------------------------------
+Intuition:
+----------
+There are multiple ways to count digits:
+1. Convert number to String and check length → O(digits).
+2. Divide repeatedly by 10 → O(digits).
+3. Use logarithm → O(1).
+
+We use logarithm here.
+
+Mathematical logic:
+- log10(n) gives the power of 10 just smaller than n.
+- Example: log10(1234) ≈ 3.09 → floor = 3.
+- Adding 1 gives digit count = 4.
+
+-----------------------------------------------------------
+Why this approach works:
+-------------------------
+- The number of digits in base 10 = floor(log10(n)) + 1.
+- Works because powers of 10 define digit ranges:
+   • 1–9       → 1 digit
+   • 10–99     → 2 digits
+   • 100–999   → 3 digits
+   • 1000–9999 → 4 digits
+   ...
+- log10 automatically tells us which range number falls into.
+
+-----------------------------------------------------------
+Dry Run Example:
+----------------
+Input: n = 12345
+
+Step 1: log10(12345) ≈ 4.09
+Step 2: floor(4.09) = 4
+Step 3: Add 1 → 5 digits
+
+Output: 5
+
+Edge Case Example:
+Input: n = 0
+log10(0) → undefined
+So we handle separately: digits = 1
+
+-----------------------------------------------------------
+Code Implementation:
+--------------------
+*/
+
+class Solution {
+    public int countDigits(int n) {
+        if (n == 0) return 1; // handle edge case
+        return (int)(Math.log10(Math.abs(n))) + 1;
+    }
+}
+
+/*
+-----------------------------------------------------------
+Time & Space Complexity:
+-------------------------
+Time Complexity: O(1)
+- Just one logarithm calculation.
+
+Space Complexity: O(1)
+- No extra space used.
+
+-----------------------------------------------------------
+Alternative Approaches:
+-----------------------
+1. Convert to String → return (""+n).length()
+   - Simple but O(d) where d = number of digits.
+
+2. While loop divide by 10
+   - Count steps until n == 0
+   - O(d) operations
+
+3. Logarithm (our method)
+   - O(1) → Best and optimal.
+
+-----------------------------------------------------------
+Summary (Yuvraj way):
+----------------------
+→ Easiest way: digits = floor(log10(n)) + 1
+→ Handle n = 0 separately.
+→ Works in constant time.
+→ Much faster and cleaner than loops or strings.
+===========================================================
+*/
