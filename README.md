@@ -15,8 +15,8 @@
 - 🟢 Easy: **137**
 - 🟡 Medium: **144**
 - 🔴 Hard: **24**
-- 🏆 Ranking: **#395772**
-- ⏰ Last updated: 2025-11-14 00:56:11 UTC
+- 🏆 Ranking: **#396050**
+- ⏰ Last updated: 2025-11-15 00:54:39 UTC
 <!-- LEETCODE-STATS-END -->
 
 ---
